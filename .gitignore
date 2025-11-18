@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads (có thể giữ folder nhưng ignore nội dung)
+backend/uploads/**/*
+!backend/uploads/.gitkeep
+!backend/uploads/about/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+error.log
+
+# Database
+*.sql.backup
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
