@@ -1,9 +1,10 @@
-import axios from 'axios'
+import axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'http://localhost/Fashion-company/backend/api', // Updated for Fashion Company
-  timeout: 10000
-})
+  baseURL: "http://localhost/Fashion-company/backend/api", // Updated for Fashion Company
+  timeout: 10000,
+  withCredentials: true,
+});
 
 // ========== About API ==========
 
@@ -12,30 +13,30 @@ const instance = axios.create({
  */
 export const getAbout = async () => {
   try {
-    const response = await instance.get('/about.php')
-    return response.data
+    const response = await instance.get("/about.php");
+    return response.data;
   } catch (error) {
-    console.error('Error fetching about:', error)
-    throw error
+    console.error("Error fetching about:", error);
+    throw error;
   }
-}
+};
 
 /**
  * Update about information (Admin only)
  */
 export const updateAbout = async (data, authToken) => {
   try {
-    const response = await instance.put('/about.php', data, {
+    const response = await instance.put("/about.php", data, {
       headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    })
-    return response.data
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error('Error updating about:', error)
-    throw error
+    console.error("Error updating about:", error);
+    throw error;
   }
-}
+};
 
 // ========== FAQ API ==========
 
@@ -44,43 +45,43 @@ export const updateAbout = async (data, authToken) => {
  */
 export const getFAQs = async (params = {}) => {
   try {
-    const response = await instance.get('/faqs.php', { params })
-    return response.data
+    const response = await instance.get("/faqs.php", { params });
+    return response.data;
   } catch (error) {
-    console.error('Error fetching FAQs:', error)
-    throw error
+    console.error("Error fetching FAQs:", error);
+    throw error;
   }
-}
+};
 
 /**
  * Get single FAQ by ID
  */
 export const getFAQById = async (id) => {
   try {
-    const response = await instance.get(`/faqs.php?id=${id}`)
-    return response.data
+    const response = await instance.get(`/faqs.php?id=${id}`);
+    return response.data;
   } catch (error) {
-    console.error('Error fetching FAQ:', error)
-    throw error
+    console.error("Error fetching FAQ:", error);
+    throw error;
   }
-}
+};
 
 /**
  * Create new FAQ (Admin only)
  */
 export const createFAQ = async (data, authToken) => {
   try {
-    const response = await instance.post('/faqs.php', data, {
+    const response = await instance.post("/faqs.php", data, {
       headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    })
-    return response.data
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error('Error creating FAQ:', error)
-    throw error
+    console.error("Error creating FAQ:", error);
+    throw error;
   }
-}
+};
 
 /**
  * Update FAQ (Admin only)
@@ -89,15 +90,15 @@ export const updateFAQ = async (id, data, authToken) => {
   try {
     const response = await instance.put(`/faqs.php?id=${id}`, data, {
       headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    })
-    return response.data
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error('Error updating FAQ:', error)
-    throw error
+    console.error("Error updating FAQ:", error);
+    throw error;
   }
-}
+};
 
 /**
  * Delete FAQ (Admin only)
@@ -106,14 +107,71 @@ export const deleteFAQ = async (id, authToken) => {
   try {
     const response = await instance.delete(`/faqs.php?id=${id}`, {
       headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    })
-    return response.data
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error('Error deleting FAQ:', error)
-    throw error
+    console.error("Error deleting FAQ:", error);
+    throw error;
   }
-}
+};
 
-export default instance
+// ========== Posts API ==========
+
+export const getPosts = async (params = {}) => {
+  try {
+    const response = await instance.get("/posts.php", { params });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    throw error;
+  }
+};
+
+/**
+ * Get single post by id or slug
+ */
+export const getPostById = async (id) => {
+  try {
+    const response = await instance.get("/posts.php", { params: { id } });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    throw error;
+  }
+};
+
+// ========== Admin Posts API (requires admin session) ==========
+
+export const createPost = async (data) => {
+  try {
+    const response = await instance.post('/admin/posts.php', data);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
+};
+
+export const updatePost = async (id, data) => {
+  try {
+    const response = await instance.put(`/admin/posts.php?id=${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating post:', error);
+    throw error;
+  }
+};
+
+export const deletePost = async (id) => {
+  try {
+    const response = await instance.delete(`/admin/posts.php?id=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    throw error;
+  }
+};
+
+export default instance;

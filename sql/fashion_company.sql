@@ -342,3 +342,68 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+--
+-- Cơ sở dữ liệu: `fashion_company` insert cho bảng `posts`
+--
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  0,
+  'Inside Our Atelier Upgrade',
+  'After months of planning, our atelier refresh is complete. The renovation balances modern craft technology with the heritage details that define our brand.
+Each workstation now pairs digital pattern tools with bespoke tailoring equipment, giving our makers the flexibility to experiment without losing the tactile intuition that customers expect.
+We also carved out a collaborative pit where design, merchandising, and production teams can review samples side by side. The result: faster iteration cycles, richer storytelling, and fewer compromises between concept and execution.',
+  'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80',
+  '2025-02-14 10:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  1,
+  'Inside Our New Sustainable Dye Lab',
+  'Our new dye lab uses closed-loop filtration systems that cut water waste by nearly 70%.
+Colorists can now test hues in micro-batches, enabling faster development without large material use.
+The lab also integrates AI-powered shade matching, ensuring consistency across global production partners.',
+  'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=80',
+  '2025-03-01 09:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  2,
+  'A First Look at the Spring 2025 Collection',
+  'This season explores the tension between structure and ease, using botanical-dyed fabrics.
+Designers experimented with modular closures and convertible silhouettes that transform with movement.
+The collection’s palette ranges from muted sage to vibrant petal tones, inspired by early spring blooms.',
+  'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80',
+  '2025-01-20 12:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  3,
+  'Meet Yuki: The Master Tailor Behind Our Signature Jackets',
+  'Yuki joined our atelier more than 12 years ago and has become the reference for precision tailoring.
+Her philosophy blends traditional handwork with selective machine assistance for durability.
+She mentors new apprentices, focusing on the subtle hand techniques that define premium craftsmanship.',
+  'https://images.unsplash.com/photo-1522336572468-97b06e8ef143?auto=format&fit=crop&w=1200&q=80',
+  '2025-02-02 15:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  4,
+  'Bio-Fabrics: The Future of Luxury Materials',
+  'Our bio-fabric program focuses on renewable fibers derived from algae, bamboo, and lab-grown cellulose.
+These materials maintain luxury drape while dramatically reducing environmental impact.
+Pilot garments show higher breathability and durability compared to conventional blends.',
+  'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1200&q=80',
+  '2025-03-10 08:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  5,
+  'Reviving the Archives: Reimagining Classics for a New Generation',
+  'The archive revival project began by cataloging thousands of sketches, swatches, and prototypes.
+Iconic shapes from the 90s and early 2000s were reinterpreted with modern materials and techniques.
+The resulting capsule blends nostalgia with innovation, celebrating the brand’s evolution.',
+  'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80',
+  '2025-04-05 11:30:00'
+);
