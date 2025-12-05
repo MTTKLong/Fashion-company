@@ -41,6 +41,8 @@ export default function Header() {
                             Liên hệ
                         </Link>
 
+                        
+
                         {/* User Menu */}
                         {user ? (
                             <div className="relative ml-3">
@@ -71,6 +73,16 @@ export default function Header() {
                                         >
                                             Thông tin cá nhân
                                         </Link>
+
+                                        {/* Giỏ hàng trong dropdown user */}
+                                        <Link
+                                            to="/cart"
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            onClick={() => setIsUserMenuOpen(false)}
+                                        >
+                                            Giỏ hàng
+                                        </Link>
+
                                         {user.role === 'admin' && (
                                             <Link
                                                 to="/admin/dashboard"
@@ -145,11 +157,20 @@ export default function Header() {
                         <Link to="/contact" className="block text-gray-700 hover:text-indigo-600 px-3 py-2">
                             Liên hệ
                         </Link>
+
+                        
+
                         {user ? (
                             <>
                                 <Link to="/profile" className="block text-gray-700 hover:text-indigo-600 px-3 py-2">
                                     Thông tin cá nhân
                                 </Link>
+
+                                {/* Giỏ hàng dưới user menu mobile */}
+                                <Link to="/cart" className="block text-gray-700 hover:text-indigo-600 px-3 py-2">
+                                    Giỏ hàng
+                                </Link>
+
                                 {user.role === 'admin' && (
                                     <Link to="/admin/dashboard" className="block text-gray-700 hover:text-indigo-600 px-3 py-2">
                                         Quản trị

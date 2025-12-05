@@ -8,14 +8,14 @@
  * Kiểm tra xem user có phải admin không
  * TODO: Thay thế bằng hệ thống auth thực tế
  */
-function requireAdmin() {
-    session_start();
-    // Tạm thời comment để test, uncomment khi có hệ thống auth
-    // if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-    //     header('Location: /Fashion-company/backend/admin/login.php');
-    //     exit;
-    // }
-}
+// function requireAdmin() {
+//     session_start();
+//     // Tạm thời comment để test, uncomment khi có hệ thống auth
+//     // if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+//     //     header('Location: /Fashion-company/backend/admin/login.php');
+//     //     exit;
+//     // }
+// }
 
 /**
  * Upload file helper

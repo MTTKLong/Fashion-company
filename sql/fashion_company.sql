@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 18, 2025 lúc 03:32 AM
+-- Thời gian đã tạo: Th10 27, 2025 lúc 01:01 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -50,6 +50,32 @@ INSERT INTO `about` (`id`, `title`, `content`, `mission`, `vision`, `history`, `
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` enum('pending','submitted') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `cart_items`
+--
+
+CREATE TABLE `cart_items` (
+  `id` int(11) NOT NULL,
+  `cart_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `categories`
 --
 
@@ -58,6 +84,13 @@ CREATE TABLE `categories` (
   `name` varchar(150) DEFAULT NULL,
   `slug` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`, `slug`) VALUES
+(1, 'Áo Thun', 'ao-thun');
 
 -- --------------------------------------------------------
 
@@ -109,6 +142,34 @@ INSERT INTO `faqs` (`id`, `question`, `answer`, `category`, `order_num`, `is_act
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `total` decimal(10,2) DEFAULT NULL,
+  `status` enum('pending','confirmed','shipping','done','canceled') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `password_resets`
 --
 
@@ -149,8 +210,16 @@ CREATE TABLE `products` (
   `stock` int(11) DEFAULT 0,
   `image` varchar(255) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `slug`, `description`, `price`, `stock`, `image`, `category_id`, `created_at`, `status`) VALUES
+(2, 'Áo Thun Unisex', 'ao-thun-unisex', 'Áo thun cơ bản, 100% cotton.', 250000.00, 50, 'uploads/products/default.jpg', 1, '2025-11-27 00:00:13', 1);
 
 -- --------------------------------------------------------
 
@@ -193,7 +262,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `email`, `password_hash`, `fullname`, `phone`, `avatar`, `role`, `email_verified`, `status`, `created_at`, `updated_at`, `last_login`) VALUES
 (1, 'maristran72@gmail.com', '$2y$10$P/Cm.xuKH7lfarHpUHZK2exU9R5J2tqNmpwqFj5Yzk3Uk2wz.np.O', 'Trần Quốc Toàn', '0766983313', 'avatar_1_1763391369.png', 'admin', 0, 'active', '2025-11-17 11:58:45', '2025-11-17 14:56:09', NULL),
-(2, 'maristran71@gmail.com', '$2y$10$xiLIl2wkXLLXafRIRD3Ry.JaLig9A6bdWq1GFszPK520tKDuwh.we', 'Trần Quốc B', '0766983312', NULL, 'customer', 0, 'active', '2025-11-17 13:38:38', '2025-11-17 14:45:42', NULL);
+(2, 'maristran71@gmail.com', '$2y$10$xiLIl2wkXLLXafRIRD3Ry.JaLig9A6bdWq1GFszPK520tKDuwh.we', 'Trần Quốc B', '0766983312', NULL, 'customer', 0, 'active', '2025-11-17 13:38:38', '2025-11-17 14:45:42', NULL),
+(3, 'long.thai1210@hcmut.edu.vn', '$2y$10$wTVoZUdXcIiVjGaTDUJhSubwKe8QP3U79ijFPdHN3xrfdISQ04PuO', 'Kim Long', '0924249938', NULL, 'admin', 0, 'active', '2025-11-26 23:10:17', '2025-11-26 23:10:37', NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -203,6 +273,18 @@ INSERT INTO `users` (`id`, `email`, `password_hash`, `fullname`, `phone`, `avata
 -- Chỉ mục cho bảng `about`
 --
 ALTER TABLE `about`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `cart_items`
+--
+ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -225,6 +307,18 @@ ALTER TABLE `faqs`
   ADD KEY `idx_is_active` (`is_active`),
   ADD KEY `idx_order_num` (`order_num`),
   ADD KEY `idx_category` (`category`);
+
+--
+-- Chỉ mục cho bảng `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `password_resets`
@@ -275,10 +369,22 @@ ALTER TABLE `about`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT cho bảng `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `cart_items`
+--
+ALTER TABLE `cart_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `contacts`
@@ -291,6 +397,18 @@ ALTER TABLE `contacts`
 --
 ALTER TABLE `faqs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT cho bảng `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -308,13 +426,14 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -331,6 +450,8 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
+ALTER TABLE `products`
+  MODIFY image MEDIUMBLOB;
 
 --
 -- Các ràng buộc cho bảng `sessions`

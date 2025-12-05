@@ -14,6 +14,7 @@ import Posts from './pages/Posts'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import FAQ from './pages/FAQ'
+import Cart from './pages/Cart' // --- [MỚI] Import trang Giỏ hàng
 
 // Auth pages
 import Login from './pages/auth/Login'
@@ -30,7 +31,7 @@ import AdminUsers from './pages/admin/Users'
 import UserDetail from './pages/admin/UserDetail'
 import AdminFAQ from './pages/admin/AdminFAQ'
 import AdminAbout from './pages/admin/AdminAbout'
-
+import AdminProduct from './pages/admin/AdminProduct'
 export default function App() {
   return (
     <AuthProvider>
@@ -43,10 +44,13 @@ export default function App() {
               <Route path='/' element={<Home />} />
               <Route path='/about' element={<About />} />
               <Route path='/products' element={<Products />} />
-              <Route path='/product/:id' element={<ProductDetail />} />
+              <Route path='/products/:id' element={<ProductDetail />} />
               <Route path='/posts' element={<Posts />} />
               <Route path='/faq' element={<FAQ />} />
               <Route path='/contact' element={<Contact />} />
+              
+              {/* --- [MỚI] Route cho Giỏ hàng --- */}
+              <Route path='/cart' element={<Cart />} />
 
               {/* Auth routes */}
               <Route path='/login' element={<Login />} />
@@ -95,7 +99,9 @@ export default function App() {
                   <AdminAbout />
                 </ProtectedRoute>
               } />
-            </Routes>
+              <Route path="/admin/products" element={<ProtectedRoute adminOnly><AdminProduct /></ProtectedRoute>} />
+
+              </Routes>
           </main>
           <Footer />
         </div>
