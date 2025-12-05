@@ -1,4 +1,7 @@
 <?php
+// Add this line to fix the CORS error!
+header("Access-Control-Allow-Origin: *");
+
 require __DIR__ . '/../config/db.php';
 header('Content-Type: application/json; charset=utf-8');
 

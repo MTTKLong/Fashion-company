@@ -38,3 +38,11 @@ error.log
 *.tmp
 *.bak
 *.cache
+
+# Docker Linux setup
+docker-compose.yml
+Dockerfile.web
+backend/config/db.php
+frontend/node_modules
+frontend/package-lock.json
+frontend/.npmrc

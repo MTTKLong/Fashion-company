@@ -1,10 +1,12 @@
 <?php
-// Update these values
-$DB_HOST = '127.0.0.1';
-$DB_PORT = '3307'; // XAMPP MySQL runs on port 3307
+// backend/config/db.php
+
+// In Docker, we talk to the service name "db", not localhost
+$DB_HOST = 'db';      // Docker internal name
+$DB_PORT = '3306';    // Docker internal port
 $DB_NAME = 'fashion_company';
-$DB_USER = 'root';
-$DB_PASS = ''; // Empty password
+$DB_USER = 'root';    // Matches XAMPP
+$DB_PASS = '';        // Matches XAMPP
 
 try {
     $pdo = new PDO("mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME;charset=utf8mb4", $DB_USER, $DB_PASS, [
@@ -15,3 +17,4 @@ try {
     echo json_encode(['error'=>'DB connection failed: '.$e->getMessage()]);
     exit;
 }
+?>

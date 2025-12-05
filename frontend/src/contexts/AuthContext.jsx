@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config'; // <--- The only "new" thing
 
 const AuthContext = createContext();
 
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         try {
             // Check session from server
             const response = await axios.get(
-                'http://localhost/Fashion-company/backend/api/auth/check.php',
+                `${API_URL}/auth/check.php`, // <--- Dynamic URL
                 { withCredentials: true }
             );
 
@@ -49,7 +50,8 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem('user');
             }
         } catch (error) {
-            // If API fails, try localStorage
+            // If API fails (e.g. Docker is down), try localStorage
+            console.warn("Auth check failed (using cache):", error.message);
             const savedUser = localStorage.getItem('user');
             if (savedUser) {
                 try {
@@ -66,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const response = await axios.post(
-                'http://localhost/Fashion-company/backend/api/auth/login.php',
+                `${API_URL}/auth/login.php`, // <--- Dynamic URL
                 { email, password },
                 { withCredentials: true }
             );
@@ -85,7 +87,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (data) => {
         try {
-            await axios.post('http://localhost/Fashion-company/backend/api/auth/register.php', data);
+            await axios.post(`${API_URL}/auth/register.php`, data); // <--- Dynamic URL
             return { success: true };
         } catch (error) {
             return {
@@ -98,7 +100,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await axios.post(
-                'http://localhost/Fashion-company/backend/api/auth/logout.php',
+                `${API_URL}/auth/logout.php`, // <--- Dynamic URL
                 {},
                 { withCredentials: true }
             );
@@ -107,6 +109,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setUser(null);
             localStorage.removeItem('user');
+            window.location.href = '/'; // Added redirect to be safe
         }
     };
 
