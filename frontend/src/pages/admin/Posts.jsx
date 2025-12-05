@@ -16,9 +16,18 @@ export default function AdminPosts() {
     setIsLoading(true);
     try {
       const res = await fetchAdminPosts({ page, limit: PAGE_SIZE, search: q || undefined });
-      const data = res?.data || [];
-      const pagination = res?.pagination || {};
-      setPosts(Array.isArray(data) ? data : []);
+      // normalize possible shapes:
+      // - axios response: res.data = { data: [...], pagination: {...} }
+      // - direct payload: res = { data: [...], pagination: {...} }
+      // - direct array: res = [...]
+      const payload = res?.data ?? res ?? {};
+      const items = Array.isArray(payload.data)
+        ? payload.data
+        : Array.isArray(payload)
+        ? payload
+        : [];
+      const pagination = payload.pagination ?? {};
+      setPosts(items);
       setTotalPages(pagination.totalPages ?? 1);
       setCurrentPage(pagination.page ?? page);
     } catch (err) {
