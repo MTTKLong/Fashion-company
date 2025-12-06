@@ -19,14 +19,25 @@ try {
     $stmt->execute([$user_id]);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Lấy chi tiết items cho mỗi đơn
+    // Lấy chi tiết items cho mỗi đơn và chuyển ảnh sang Base64
     foreach ($orders as &$order) {
-        $stmt_items = $pdo->prepare("SELECT p.name, p.image, oi.quantity, oi.price 
-                                     FROM order_items oi 
-                                     JOIN products p ON oi.product_id = p.id 
-                                     WHERE oi.order_id=?");
+        $stmt_items = $pdo->prepare("
+            SELECT p.name, p.image, oi.quantity, oi.price 
+            FROM order_items oi 
+            JOIN products p ON oi.product_id = p.id 
+            WHERE oi.order_id=?
+        ");
         $stmt_items->execute([$order['id']]);
-        $order['items'] = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+        $items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+
+        // Chuyển BLOB ảnh sang Base64
+        foreach ($items as &$item) {
+            if (!empty($item['image'])) {
+                $item['image'] = 'data:image/webp;base64,' . base64_encode($item['image']);
+            }
+        }
+
+        $order['items'] = $items;
     }
 
     echo json_encode(["success"=>true,"orders"=>$orders]);
@@ -35,3 +46,4 @@ try {
     http_response_code(500);
     echo json_encode(["success"=>false,"message"=>$e->getMessage()]);
 }
+ 

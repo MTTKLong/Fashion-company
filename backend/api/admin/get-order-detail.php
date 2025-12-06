@@ -33,7 +33,15 @@ try {
         WHERE oi.order_id=?
     ");
     $stmt_items->execute([$order_id]);
-    $order['items'] = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+    $items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+
+    // Chuyển ảnh BLOB sang Base64
+    foreach ($items as &$item) {
+        if (!empty($item['image'])) {
+            $item['image'] = 'data:image/webp;base64,' . base64_encode($item['image']);
+        }
+    }
+    $order['items'] = $items;
 
     echo json_encode(["success"=>true, "order"=>$order]);
 

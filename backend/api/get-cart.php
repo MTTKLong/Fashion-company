@@ -17,7 +17,7 @@ try {
     // Lấy giỏ hàng PENDING của user
     $stmt = $pdo->prepare("SELECT id FROM carts WHERE user_id=? AND status='pending'");
     $stmt->execute([$user_id]);
-    $cart = $stmt->fetch();
+    $cart = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$cart) {
         echo json_encode([]); // Chưa có giỏ hàng
@@ -36,7 +36,15 @@ try {
     $stmt->execute([$cart_id]);
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Chuyển BLOB sang Base64 để React hiển thị
+    foreach ($items as &$item) {
+        if (!empty($item['product_image'])) {
+            $item['product_image'] = 'data:image/webp;base64,' . base64_encode($item['product_image']);
+        }
+    }
+
     echo json_encode($items);
+
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);

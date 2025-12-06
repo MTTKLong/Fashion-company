@@ -12,7 +12,10 @@ require_once __DIR__ . '/../config/db.php';
 global $pdo;
 
 $user_id = $_GET['user_id'] ?? null;
-if (!$user_id) { echo json_encode(["success"=>false,"message"=>"Thiếu user ID"]); exit; }
+if (!$user_id) { 
+    echo json_encode(["success"=>false,"message"=>"Thiếu user ID"]); 
+    exit; 
+}
 
 try {
     $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id=? ORDER BY created_at DESC");
@@ -21,12 +24,23 @@ try {
 
     // Lấy chi tiết items cho mỗi đơn
     foreach ($orders as &$order) {
-        $stmt_items = $pdo->prepare("SELECT p.name, p.image, oi.quantity, oi.price 
-                                     FROM order_items oi 
-                                     JOIN products p ON oi.product_id = p.id 
-                                     WHERE oi.order_id=?");
+        $stmt_items = $pdo->prepare("
+            SELECT p.name, p.image, oi.quantity, oi.price 
+            FROM order_items oi 
+            JOIN products p ON oi.product_id = p.id 
+            WHERE oi.order_id=?
+        ");
         $stmt_items->execute([$order['id']]);
-        $order['items'] = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+        $items = $stmt_items->fetchAll(PDO::FETCH_ASSOC);
+
+        // Chuyển BLOB sang Base64
+        foreach ($items as &$item) {
+            if (!empty($item['image'])) {
+                $item['image'] = 'data:image/webp;base64,' . base64_encode($item['image']);
+            }
+        }
+
+        $order['items'] = $items;
     }
 
     echo json_encode(["success"=>true,"orders"=>$orders]);
@@ -35,3 +49,4 @@ try {
     http_response_code(500);
     echo json_encode(["success"=>false,"message"=>$e->getMessage()]);
 }
+?>

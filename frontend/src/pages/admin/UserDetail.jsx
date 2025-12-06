@@ -44,23 +44,25 @@ export default function UserDetail() {
       console.error(err);
     }
   };
-const fetchOrderItems = async (orderId) => {
-  try {
-    setLoadingItems(true);
-    const res = await axios.get(
-      `http://localhost/Fashion-company/backend/api/admin/get-order-detail.php?order_id=${orderId}`,
-      { withCredentials: true }
-    );
-    if (res.data.success) {
-      setOrderItems(res.data.order.items || []);
+
+  // Lấy chi tiết sản phẩm trong đơn
+  const fetchOrderItems = async (orderId) => {
+    try {
+      setLoadingItems(true);
+      const res = await axios.get(
+        `http://localhost/Fashion-company/backend/api/admin/get-order-detail.php?order_id=${orderId}`,
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setOrderItems(res.data.order.items || []);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Lỗi khi tải chi tiết đơn hàng");
+    } finally {
+      setLoadingItems(false);
     }
-  } catch (err) {
-    console.error(err);
-    alert("Lỗi khi tải chi tiết đơn hàng");
-  } finally {
-    setLoadingItems(false);
-  }
-};
+  };
 
   // Thao tác user
   const handleToggleStatus = async () => {
@@ -282,6 +284,7 @@ const fetchOrderItems = async (orderId) => {
                         : 'Đã giao'}
                     </td>
                     <td className="p-2 border flex gap-2">
+                      {/* Xem chi tiết */}
                       <button
                         onClick={() => {
                           setSelectedOrder(order);
@@ -292,8 +295,8 @@ const fetchOrderItems = async (orderId) => {
                         Xem chi tiết
                       </button>
 
-                      {/* Xác nhận đơn chỉ admin + pending */}
-                      {order.status === 'pending' && user.role === 'admin' && (
+                      {/* Xác nhận đơn: chỉ admin, đơn pending */}
+                      {user.role === 'admin' && order.status === 'pending' && (
                         <button
                           onClick={() => handleConfirmOrder(order.id)}
                           className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
@@ -303,13 +306,13 @@ const fetchOrderItems = async (orderId) => {
                       )}
 
                       {/* Hủy đơn */}
-                      {(user.role === 'admin' && order.status === 'pending' && order.status === 'confirmed'|| (user.role !== 'admin' && order.status === 'pending')) && (
+                      {((user.role === 'admin' && (order.status === 'pending' || order.status === 'confirmed')) ||
+                        (user.role !== 'admin' && order.status === 'pending')) && (
                         <button
                           onClick={() => handleCancelOrder(order.id)}
                           className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                         >
                           Hủy
-
                         </button>
                       )}
                     </td>
@@ -322,86 +325,79 @@ const fetchOrderItems = async (orderId) => {
           )}
         </div>
 
-        {/* Modal */}
+        {/* Modal chi tiết đơn hàng */}
         {selectedOrder && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-2xl p-6 relative">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-2xl p-6 relative">
+              <h3 className="text-2xl font-bold mb-3">Chi tiết đơn hàng #{selectedOrder.id}</h3>
+              <p><strong>Ngày tạo:</strong> {new Date(selectedOrder.created_at).toLocaleString('vi-VN')}</p>
+              <p>
+                <strong>Trạng thái:</strong>{" "}
+                {selectedOrder.status === "pending"
+                  ? "Chờ xác nhận"
+                  : selectedOrder.status === "confirmed"
+                  ? "Đã xác nhận"
+                  : selectedOrder.status === "canceled"
+                  ? "Đã hủy"
+                  : "Đã giao"}
+              </p>
 
-      <h3 className="text-2xl font-bold mb-3">
-        Chi tiết đơn hàng #{selectedOrder.id}
-      </h3>
+              <hr className="my-4" />
 
-      <p><strong>Ngày tạo:</strong> {new Date(selectedOrder.created_at).toLocaleString('vi-VN')}</p>
-      <p>
-        <strong>Trạng thái:</strong>{" "}
-        {selectedOrder.status === "pending"
-          ? "Chờ xác nhận"
-          : selectedOrder.status === "confirmed"
-          ? "Đã xác nhận"
-          : selectedOrder.status === "canceled"
-          ? "Đã hủy"
-          : "Đã giao"}
-      </p>
+              <h4 className="text-lg font-semibold mb-2">Sản phẩm trong đơn</h4>
 
-      <hr className="my-4" />
+              {loadingItems ? (
+                <p>Đang tải sản phẩm...</p>
+              ) : orderItems.length === 0 ? (
+                <p className="text-gray-600">Không có sản phẩm</p>
+              ) : (
+                <table className="w-full text-left border">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-2 border">Ảnh</th>
+                      <th className="p-2 border">Tên</th>
+                      <th className="p-2 border">Giá</th>
+                      <th className="p-2 border">SL</th>
+                      <th className="p-2 border">Tổng</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderItems.map((item, idx) => (
+                      <tr key={idx}>
+                        <td className="p-2 border">
+                          <img
+                            src={`http://localhost/Fashion-company/backend/${item.image}`}
+                            className="w-14 h-14 object-cover rounded"
+                          />
+                        </td>
+                        <td className="p-2 border">{item.name}</td>
+                        <td className="p-2 border">{item.price.toLocaleString()} đ</td>
+                        <td className="p-2 border">{item.quantity}</td>
+                        <td className="p-2 border font-semibold">
+                          {(item.price * item.quantity).toLocaleString()} đ
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
 
-      <h4 className="text-lg font-semibold mb-2">Sản phẩm trong đơn</h4>
+              <div className="text-right mt-4 text-lg font-bold">
+                Tổng đơn: {selectedOrder.total.toLocaleString()} đ
+              </div>
 
-      {loadingItems ? (
-        <p>Đang tải sản phẩm...</p>
-      ) : orderItems.length === 0 ? (
-        <p className="text-gray-600">Không có sản phẩm</p>
-      ) : (
-        <table className="w-full text-left border">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-2 border">Ảnh</th>
-              <th className="p-2 border">Tên</th>
-              <th className="p-2 border">Giá</th>
-              <th className="p-2 border">SL</th>
-              <th className="p-2 border">Tổng</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orderItems.map((item, idx) => (
-              <tr key={idx}>
-                <td className="p-2 border">
-                  <img
-                    src={`http://localhost/Fashion-company/backend/${item.image}`}
-                    className="w-14 h-14 object-cover rounded"
-                  />
-                </td>
-                <td className="p-2 border">{item.name}</td>
-                <td className="p-2 border">{item.price.toLocaleString()} đ</td>
-                <td className="p-2 border">{item.quantity}</td>
-                <td className="p-2 border font-semibold">
-                  {(item.price * item.quantity).toLocaleString()} đ
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-
-      <div className="text-right mt-4 text-lg font-bold">
-        Tổng đơn: {selectedOrder.total.toLocaleString()} đ
-      </div>
-
-      <button
-        onClick={() => {
-          setSelectedOrder(null);
-          setOrderItems([]);
-        }}
-        className="mt-5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
-      >
-        Đóng
-      </button>
-
-    </div>
-  </div>
-)}
-
-
+              <button
+                onClick={() => {
+                  setSelectedOrder(null);
+                  setOrderItems([]);
+                }}
+                className="mt-5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

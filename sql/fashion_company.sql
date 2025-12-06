@@ -528,3 +528,5 @@ Bộ sưu tập capsule này kết hợp hoài niệm với đổi mới, tôn v
   'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80',
   '2025-04-05 11:30:00'
 );
+ALTER TABLE products
+ADD COLUMN image_blob LONGBLOB;

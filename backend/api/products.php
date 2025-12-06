@@ -64,10 +64,10 @@ try {
                 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($product) {
-                    if ($product['image_blob']) {
+                    if ($product['image']) {
                         $product['image'] = "data:image/jpeg;base64," . base64_encode($product['image_blob']);
                     }
-                    unset($product['image_blob']);
+                    unset($product['image']);
 
                     echo json_encode(['success' => true, 'data' => $product]);
                 } else {
@@ -111,7 +111,7 @@ try {
             $total = $countStmt->fetchColumn();
 
             // Lấy danh sách
-            $sql = "SELECT id, name, price, description, status, slug, image_blob 
+            $sql = "SELECT id, name, price, description, status, slug, image 
                     FROM products $where 
                     ORDER BY created_at DESC 
                     LIMIT $limit OFFSET $offset";
@@ -123,11 +123,12 @@ try {
 
             // Convert blob sang base64
             foreach ($products as &$p) {
-                if ($p['image_blob']) {
-                    $p['image'] = "data:image/jpeg;base64," . base64_encode($p['image_blob']);
-                }
-                unset($p['image_blob']);
-            }
+    if (!empty($p['image'])) {
+        $p['image'] = "data:image/jpeg;base64," . base64_encode($p['image']);
+    } else {
+        $p['image'] = null; // hoặc URL placeholder
+    }
+}
 
             echo json_encode([
                 'success' => true,
@@ -178,7 +179,7 @@ try {
                 $params = [$name,$description,$price,$stock,$category_id,$status,$slug];
 
                 if ($blob) {
-                    $sql .= ", image_blob=?";
+                    $sql .= ", image=?";
                     $params[] = $blob;
                 }
 
@@ -192,7 +193,7 @@ try {
             } 
             else {
                 $stmt = $pdo->prepare("
-                    INSERT INTO products (name, description, price, stock, category_id, status, slug, image_blob, created_at)
+                    INSERT INTO products (name, description, price, stock, category_id, status, slug, image, created_at)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
                 ");
 
