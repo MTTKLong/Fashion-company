@@ -40,9 +40,9 @@ export default function Header() {
                         <Link to="/contact" className="text-gray-700 hover:text-indigo-600 px-3 py-2">
                             Liên hệ
                         </Link>
-
-                        
-
+                        <Link to="/posts" className="text-gray-700 hover:text-indigo-600 px-3 py-2">
+                            Bài viết
+                        </Link>
                         {/* User Menu */}
                         {user ? (
                             <div className="relative ml-3">
@@ -158,7 +158,7 @@ export default function Header() {
                             Liên hệ
                         </Link>
 
-                        
+
 
                         {user ? (
                             <>

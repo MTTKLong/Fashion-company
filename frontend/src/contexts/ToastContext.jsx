@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import Toast from '../components/common/Toast';
 
 const ToastContext = createContext();
@@ -14,24 +14,26 @@ export const useToast = () => {
 export const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);
 
-    const showToast = (message, type = 'info', duration = 3000) => {
+    const showToast = useCallback((message, type = 'info', duration = 3000) => {
         const id = Date.now();
         const newToast = { id, message, type, duration };
 
         setToasts(prev => [...prev, newToast]);
-    };
+    }, []);
 
-    const removeToast = (id) => {
+    const removeToast = useCallback((id) => {
         setToasts(prev => prev.filter(toast => toast.id !== id));
-    };
+    }, []);
 
-    const success = (message, duration) => showToast(message, 'success', duration);
-    const error = (message, duration) => showToast(message, 'error', duration);
-    const warning = (message, duration) => showToast(message, 'warning', duration);
-    const info = (message, duration) => showToast(message, 'info', duration);
+    const success = useCallback((message, duration) => showToast(message, 'success', duration), [showToast]);
+    const error = useCallback((message, duration) => showToast(message, 'error', duration), [showToast]);
+    const warning = useCallback((message, duration) => showToast(message, 'warning', duration), [showToast]);
+    const info = useCallback((message, duration) => showToast(message, 'info', duration), [showToast]);
+
+    const value = useMemo(() => ({ showToast, success, error, warning, info }), [showToast, success, error, warning, info]);
 
     return (
-        <ToastContext.Provider value={{ showToast, success, error, warning, info }}>
+        <ToastContext.Provider value={value}>
             {children}
             <div className="fixed top-4 right-4 z-50 space-y-2">
                 {toasts.map((toast) => (

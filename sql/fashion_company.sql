@@ -463,3 +463,68 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+--
+-- Cơ sở dữ liệu: `fashion_company` insert cho bảng `posts`
+--
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  0,
+  'Bên Trong Nâng Cấp Atelier Của Chúng Tôi',
+  'Sau nhiều tháng lên kế hoạch, việc làm mới atelier đã hoàn tất. Không gian mới cân bằng giữa công nghệ thủ công hiện đại và các chi tiết truyền thống tạo nên dấu ấn của thương hiệu.
+Mỗi bàn làm việc hiện kết hợp công cụ dựng rập kỹ thuật số với thiết bị may đo thủ công, giúp các nghệ nhân linh hoạt thử nghiệm mà không đánh mất sự tinh tế cảm quan mà khách hàng mong đợi.
+Chúng tôi cũng tạo nên một không gian cộng tác, nơi đội ngũ thiết kế, merchandising và sản xuất có thể xem mẫu cùng nhau. Kết quả: chu kỳ phát triển nhanh hơn, câu chuyện sản phẩm phong phú hơn và ít thỏa hiệp giữa ý tưởng và thực thi.',
+  'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80',
+  '2025-02-14 10:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  1,
+  'Bên Trong Phòng Thí Nghiệm Nhuộm Bền Vững Mới',
+  'Phòng thí nghiệm nhuộm mới của chúng tôi sử dụng hệ thống lọc tuần hoàn khép kín, giúp giảm gần 70% lượng nước thải.
+Các chuyên gia pha màu giờ đây có thể thử nghiệm sắc độ theo từng mẻ siêu nhỏ, rút ngắn thời gian phát triển mà không tốn nhiều nguyên liệu.
+Phòng lab còn tích hợp hệ thống AI so khớp màu, đảm bảo độ đồng nhất giữa các đối tác sản xuất toàn cầu.',
+  'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=80',
+  '2025-03-01 09:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  2,
+  'Cái Nhìn Đầu Tiên Về Bộ Sưu Tập Xuân 2025',
+  'Mùa này khám phá sự tương phản giữa cấu trúc và sự thoải mái, sử dụng chất liệu nhuộm từ thực vật.
+Các nhà thiết kế thử nghiệm khóa mô-đun và phom dáng chuyển đổi, có thể biến đổi theo chuyển động.
+Bảng màu trải dài từ xanh xô thơm nhẹ đến những tông hoa rực rỡ, lấy cảm hứng từ sắc xuân đầu mùa.',
+  'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80',
+  '2025-01-20 12:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  3,
+  'Gặp Gỡ Yuki: Người Thợ May Bậc Thầy Đằng Sau Những Thiết Kế Áo Khoác Huy Hiệu Của Chúng Tôi',
+  'Yuki gia nhập atelier hơn 12 năm trước và đã trở thành hình mẫu cho kỹ nghệ may đo chính xác.
+Triết lý của cô kết hợp kỹ thuật thủ công truyền thống với sự hỗ trợ chọn lọc của máy móc để đảm bảo độ bền.
+Cô cũng hướng dẫn các học viên mới, tập trung vào những kỹ thuật thủ công tinh tế tạo nên chất lượng cao cấp.',
+  'https://images.unsplash.com/photo-1522336572468-97b06e8ef143?auto=format&fit=crop&w=1200&q=80',
+  '2025-02-02 15:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  4,
+  'Vải Sinh Học: Tương Lai Của Chất Liệu Xa Xỉ',
+  'Chương trình vải sinh học của chúng tôi tập trung vào sợi tái tạo từ tảo, tre và cellulose nuôi cấy trong phòng thí nghiệm.
+Những chất liệu này giữ được độ rủ sang trọng trong khi giảm đáng kể tác động môi trường.
+Các sản phẩm thử nghiệm cho thấy độ thoáng khí và độ bền vượt trội so với chất liệu thông thường.',
+  'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1200&q=80',
+  '2025-03-10 08:00:00'
+);
+
+INSERT INTO posts (id, title, content, thumbnail, created_at) VALUES (
+  5,
+  'Hồi Sinh Kho Lưu Trữ: Tái Tưởng Những Biểu Tượng Cho Một Thế Hệ Mới',
+  'Dự án hồi sinh kho lưu trữ bắt đầu bằng việc phân loại hàng nghìn bản phác thảo, mẫu vải và nguyên mẫu.
+Những phom dáng biểu tượng từ những năm 90 và đầu 2000 được diễn giải lại bằng chất liệu và kỹ thuật hiện đại.
+Bộ sưu tập capsule này kết hợp hoài niệm với đổi mới, tôn vinh hành trình phát triển của thương hiệu.',
+  'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80',
+  '2025-04-05 11:30:00'
+);
