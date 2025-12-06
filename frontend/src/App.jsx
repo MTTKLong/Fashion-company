@@ -14,7 +14,7 @@ import Posts from './pages/Posts'
 import Contact from './pages/Contact'
 import About from './pages/About'
 import FAQ from './pages/FAQ'
-import Cart from './pages/Cart' // --- [MỚI] Import trang Giỏ hàng
+import Cart from './pages/Cart'
 import PostDetail from "./pages/PostDetail";
 
 
@@ -36,6 +36,8 @@ import AdminAbout from './pages/admin/AdminAbout'
 import AdminProduct from './pages/admin/AdminProduct'
 import AdminPosts from "./pages/admin/Posts";
 import PostEditor from "./pages/admin/PostEditor";
+import AdminContacts from './pages/admin/AdminContacts'
+import AdminSettings from './pages/admin/AdminSettings'
 
 export default function App() {
   return (
@@ -137,6 +139,18 @@ export default function App() {
                   </ProtectedRoute>
                 }
               />
+              
+              <Route path='/admin/contacts' element={
+                <ProtectedRoute adminOnly>
+                  <AdminContacts />
+                </ProtectedRoute>
+              } />
+              <Route path='/admin/settings' element={
+                <ProtectedRoute adminOnly>
+                  <AdminSettings />
+                </ProtectedRoute>
+              } />
+
             </Routes>
           </main>
           <Footer />
@@ -145,4 +159,3 @@ export default function App() {
     </AuthProvider>
   )
 }
-
