@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { API_URL } from '../config'; // <--- The only "new" thing
 
 /**
  * Trang Giới thiệu
@@ -17,7 +18,7 @@ const About = () => {
   const fetchAboutData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost/Fashion-company/backend/api/about.php');
+      const response = await fetch(`${API_URL}/about.php`)
       const result = await response.json();
 
       if (result.success) {

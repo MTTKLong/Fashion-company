@@ -1,7 +1,7 @@
 <?php
 // Update these values
 $DB_HOST = '127.0.0.1';
-$DB_PORT = '3306'; // XAMPP MySQL runs on port 3307
+$DB_PORT = '3307'; // XAMPP MySQL runs on port 3307
 $DB_NAME = 'fashion_company';
 $DB_USER = 'root';
 $DB_PASS = ''; // Empty password
