@@ -33,9 +33,12 @@ export default function Home() {
   useEffect(() => {
     fetch(`${API_URL}/products.php`)
       .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-           setProducts(data); 
+      .then(json => {
+        // Handle both raw array or { data: [...] } format
+        const realProducts = json.data || json;
+        
+        if (Array.isArray(realProducts) && realProducts.length > 0) {
+           setProducts(realProducts); 
         }
       })
       .catch(err => console.error("Lỗi tải Products (Dùng Mock):", err));
