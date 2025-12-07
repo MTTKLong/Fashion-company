@@ -3,25 +3,21 @@ import { Link } from 'react-router-dom';
 import { API_URL, UPLOADS_URL } from '../config';
 
 export default function Home() {
-  // --- JOB #1: Thông tin công ty ---
   const [settings, setSettings] = useState({
     company_name: 'Fashion Co.',
     company_slogan: 'Phong cách dẫn đầu xu hướng',
     site_logo: ''
   });
 
-  // --- JOB #3: Sản phẩm ---
   const [products, setProducts] = useState([]);
-  
-  // Dữ liệu giả (Mock) - Chỉ giữ 4 cái cho đẹp đội hình vòng cung thấp
+
   const MOCK_PRODUCTS = [
-      { id: 'm1', name: 'Áo Khoác Bomber', price: '500000', image: '', isNew: true },
-      { id: 'm2', name: 'Kính Phi Công', price: '150000', image: '', isNew: false },
-      { id: 'm3', name: 'Quần Cargo', price: '350000', image: '', isNew: false, sale: true },
-      { id: 'm4', name: 'Hoodie Techwear', price: '450000', image: '', isNew: false },
+    { id: 'm1', name: 'Áo Khoác Bomber', price: '500000', image: '', isNew: true },
+    { id: 'm2', name: 'Kính Phi Công', price: '150000', image: '', isNew: false },
+    { id: 'm3', name: 'Quần Cargo', price: '350000', image: '', isNew: false, sale: true },
+    { id: 'm4', name: 'Hoodie Techwear', price: '450000', image: '', isNew: false },
   ];
 
-  // Fetch Settings
   useEffect(() => {
     fetch(`${API_URL}/settings.php`)
       .then(res => res.json())
@@ -29,33 +25,31 @@ export default function Home() {
       .catch(err => console.error("Lỗi tải Settings:", err));
   }, []);
 
-  // Fetch Products (Lấy 4 sản phẩm)
   useEffect(() => {
     fetch(`${API_URL}/products.php`)
       .then(res => res.json())
       .then(json => {
-        // Handle both raw array or { data: [...] } format
         const realProducts = json.data || json;
-        
         if (Array.isArray(realProducts) && realProducts.length > 0) {
-           setProducts(realProducts); 
+          setProducts(realProducts);
         }
       })
       .catch(err => console.error("Lỗi tải Products (Dùng Mock):", err));
   }, []);
 
+  // 👉 CHỈ CHỈNH ĐOẠN NÀY
   const getImgSrc = (image) => {
-      if (!image) return null;
-      if (image.startsWith('http')) return image;
-      return `${UPLOADS_URL}/${image}`;
+    if (!image) return null;
+    if (image.startsWith('data:')) return image;  // base64 blob
+    if (image.startsWith('http')) return image;   // ảnh online
+    return `${UPLOADS_URL}/${image}`;             // ảnh file upload
   };
 
-  // Logic ghép đội hình: Luôn đảm bảo đủ 4 phần tử
   const getDisplayItems = () => {
-      const realItems = products.slice(0, 4);
-      const needed = 4 - realItems.length;
-      const filler = MOCK_PRODUCTS.slice(0, needed);
-      return [...realItems, ...filler];
+    const realItems = products.slice(0, 4);
+    const needed = 4 - realItems.length;
+    const filler = MOCK_PRODUCTS.slice(0, needed);
+    return [...realItems, ...filler];
   };
 
   const displayProducts = getDisplayItems();
@@ -133,8 +127,9 @@ export default function Home() {
                     const y = Math.sin(radian) * radius * 0.9; 
 
                     return (
-                        <div 
+                        <Link 
                             key={product.id || index}
+                            to={`/products/${product.id}`}
                             className="absolute top-1/2 left-1/2 w-64 pointer-events-auto"
                             style={{
                                 transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
@@ -198,7 +193,7 @@ export default function Home() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     );
                 })}
             </div>
