@@ -362,23 +362,40 @@ export default function UserDetail() {
                     </tr>
                   </thead>
                   <tbody>
-                    {orderItems.map((item, idx) => (
-                      <tr key={idx}>
-                        <td className="p-2 border">
-                          <img
-                            src={`http://localhost/Fashion-company/backend/${item.image}`}
-                            className="w-14 h-14 object-cover rounded"
-                          />
-                        </td>
-                        <td className="p-2 border">{item.name}</td>
-                        <td className="p-2 border">{item.price.toLocaleString()} đ</td>
-                        <td className="p-2 border">{item.quantity}</td>
-                        <td className="p-2 border font-semibold">
-                          {(item.price * item.quantity).toLocaleString()} đ
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+  {orderItems.map((item, idx) => {
+    // Xử lý hiển thị ảnh giống Product
+    let imgSrc = "/no-image.png"; // default
+    if (item.image) {
+      if (item.image.startsWith("http")) {
+        imgSrc = item.image;
+      } else if (item.image.startsWith("data:")) {
+        imgSrc = item.image;
+      } else {
+        imgSrc = `http://localhost/Fashion-company/backend/${item.image}`;
+      }
+    }
+
+    return (
+      <tr key={idx}>
+        <td className="p-2 border">
+          <img
+            src={imgSrc}
+            alt={item.name}
+            className="w-14 h-14 object-cover rounded"
+            onError={(e) => (e.target.src = "/no-image.png")}
+          />
+        </td>
+        <td className="p-2 border">{item.name}</td>
+        <td className="p-2 border">{item.price.toLocaleString()} đ</td>
+        <td className="p-2 border">{item.quantity}</td>
+        <td className="p-2 border font-semibold">
+          {(item.price * item.quantity).toLocaleString()} đ
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
                 </table>
               )}
 
