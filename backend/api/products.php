@@ -65,7 +65,7 @@ try {
 
                 if ($product) {
                     if ($product['image']) {
-                        $product['image'] = "data:image/jpeg;base64," . base64_encode($product['image_blob']);
+                        $product['image'] = "data:image/jpeg;base64," . base64_encode($product['image']);
                     }
                     unset($product['image']);
 
@@ -78,7 +78,7 @@ try {
 
             // LIST sản phẩm
             $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-            $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+            $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 50;
 
             $offset = ($page - 1) * $limit;
 
