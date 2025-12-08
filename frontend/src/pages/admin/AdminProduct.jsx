@@ -331,7 +331,8 @@ export default function AdminProduct() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-4 rounded-md mb-4 flex flex-col md:flex-row gap-3 items-center">
+        <div className="bg-white p-4 rounded-md mb-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+
           <input
             type="text"
             placeholder="Tìm kiếm sản phẩm..."
@@ -377,13 +378,14 @@ export default function AdminProduct() {
         </div>
 
         {/* Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          {loading ? (
+        <div className="bg-white rounded-lg shadow w-full overflow-hidden">
+    <div className="overflow-x-auto w-full">
+        {loading ? (
             <div className="p-12 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto" />
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto" />
             </div>
-          ) : (
-            <table className="min-w-full divide-y divide-gray-200">
+        ) : (
+            <table className="min-w-max divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hình ảnh</th>
@@ -413,7 +415,7 @@ export default function AdminProduct() {
                         )}
                       </td>
 
-                      <td className="px-6 py-4">
+                     <td className="px-6 py-4 whitespace-normal break-words max-w-[180px]">
                         <div className="text-sm font-medium text-gray-900">{p.name}</div>
                         <div className="text-sm text-gray-500">{getCategoryName(p.category_id)}</div>
                       </td>
@@ -426,7 +428,7 @@ export default function AdminProduct() {
                         </span>
                       </td>
 
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="px-6 py-4 text-right text-xs sm:text-sm whitespace-normal break-words">
                         <button onClick={() => handleEdit(p)} className="text-indigo-600 hover:text-indigo-900 mr-3">Sửa</button>
                         <button onClick={() => handleDelete(p.id)} className="text-red-600 hover:text-red-900">Xóa</button>
                       </td>
@@ -437,7 +439,7 @@ export default function AdminProduct() {
             </table>
           )}
         </div>
-
+</div>
         {/* Pagination */}
         <div className="mt-4 flex items-center justify-between">
           <div className="text-sm text-gray-600">Hiển thị {products.length} / {pagination.total} sản phẩm</div>

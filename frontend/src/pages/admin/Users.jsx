@@ -123,7 +123,9 @@ export default function AdminUsers() {
                 </div>
 
                 {/* Table */}
-                <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="bg-white rounded-lg shadow w-full overflow-hidden">
+    <div className="overflow-x-auto w-full">
+
                     {loading ? (
                         <div className="p-12 text-center">
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
@@ -143,7 +145,8 @@ export default function AdminUsers() {
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {users.map((user) => (
                                         <tr key={user.id} className="hover:bg-gray-50">
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-6 py-4 whitespace-normal break-words max-w-[180px]">
+
                                                 <div className="flex items-center">
                                                     <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-medium">
                                                         {user.full_name.charAt(0)}
@@ -154,13 +157,15 @@ export default function AdminUsers() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-6 py-4 whitespace-normal break-words max-w-[180px]">
+
                                                 <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
                                                     }`}>
                                                     {user.role === 'admin' ? 'Admin' : 'Customer'}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-6 py-4 whitespace-normal break-words max-w-[180px]">
+
                                                 <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                                     }`}>
                                                     {user.status === 'active' ? 'Hoạt động' : 'Đã khóa'}
@@ -172,7 +177,8 @@ export default function AdminUsers() {
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <button
                                                     onClick={() => handleToggleStatus(user.id, user.status)}
-                                                    className="text-indigo-600 hover:text-indigo-900 mr-3"
+                                                    className="text-indigo-600 hover:text-indigo-900 mr-2 text-xs sm:text-sm"
+
                                                 >
                                                     {user.status === 'active' ? 'Khóa' : 'Mở khóa'}
                                                 </button>
@@ -224,6 +230,7 @@ export default function AdminUsers() {
                     )}
                 </div>
             </div>
+        </div>
         </div>
     );
 }
